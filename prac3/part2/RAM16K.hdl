@@ -28,6 +28,6 @@ CHIP RAM16K {
     RAM512(in=in, load=g, address=address[0..10], out=og);
     RAM512(in=in, load=h, address=address[0..10], out=oh);
 
-    Mux8Way16(a=oa,b=ob,c=oc,d=od,e=oe,f=of,g=og,h=oh,sel=address[12..14],out=out);
+    Mux8Way16(a=oa,b=ob,c=oc,d=od,e=oe,f=of,g=og,h=oh,sel=address[11..13],out=out);
 
 }
