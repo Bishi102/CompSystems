@@ -1,0 +1,89 @@
+// Calculates a = x*y
+// a is a local variable
+// x & y are static variables
+
+// Put your code here.
+
+// counter and ncounter = 0;
+
+push constant 1
+pop static 2 // loop counter
+push constant 0 
+pop static 3 // ncounter
+push constant 0
+pop static 4 // mult
+
+
+// negate negatives and increment ncounter;
+    push static 0
+    push constant 0
+    neg
+    gt
+    if-goto POS
+
+    push static 0
+    neg
+    pop static 0
+    push static 3
+    push constant 1
+    add
+    pop static 3
+
+label POS
+    push static 1
+    push constant 0
+    neg
+    gt
+    if-goto SMALLBIG
+
+    push static 1
+    neg
+    pop static 1
+    push static 3
+    push constant 1
+    sub
+    pop static 3
+
+// find smaller/bigger
+label SMALLBIG
+    push static 0
+    push static 1
+    lt
+    if-goto LOOP
+    push static 0
+    push static 1
+    pop static 0
+    pop static 1
+
+// multiply x and y, ensuring loop iteration is done by smaller of x,y
+label LOOP
+    push static 2
+    push static 0
+    gt
+    if-goto LOOPEND
+
+    push static 4
+    push static 1
+    add 
+    pop static 4
+
+    push static 2
+    push constant 1
+    add
+    pop static 2
+
+    goto LOOP
+
+label LOOPEND
+    push static 4    
+    push constant 0
+    push static 3
+    eq
+    if-goto DONE
+    neg
+
+label DONE
+    pop local 0
+
+label END
+    goto END
