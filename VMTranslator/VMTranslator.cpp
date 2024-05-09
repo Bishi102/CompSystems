@@ -20,12 +20,59 @@ VMTranslator::~VMTranslator() {
 
 /** Generate Hack Assembly code for a VM push operation */
 string VMTranslator::vm_push(string segment, int offset){
-    return "";
+
+    string ASM = "";
+    string seg = "";
+
+    if (segment == "local"){
+        seg = "LCL";
+    } else if (segment == "argument"){
+        seg = "ARG";
+    } else if (segment == "this"){
+        seg = "THIS";
+    } else if (segment == "that"){
+        seg = "THAT";
+    } else if (segment == "temp"){
+        seg = "LCL";
+    } else if (segment == "static"){
+        seg = "LCL";
+    }
+
+    ASM += "@" + to_string(offset) + "\nD=A\n";
+    if (segment != "constant"){
+        ASM += "@" + seg + "\nA=M+D\nD=M\n";
+    }
+    ASM += "@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+    return ASM;
 }
 
 /** Generate Hack Assembly code for a VM pop operation */
-string VMTranslator::vm_pop(string segment, int offset){    
-    return "";
+string VMTranslator::vm_pop(string segment, int offset){ 
+    string ASM = "";
+    string seg = "";
+
+    
+
+    if (segment == "local"){
+        seg = "LCL";
+    } else if (segment == "argument"){
+        seg = "ARG";
+    } else if (segment == "pointer"){
+        if (offset == 0){
+            seg = "THIS";
+        } else {
+            seg = "THAT";
+            offset = 0;
+        }
+    } else if (segment == "temp"){
+        seg = "LCL";
+    } else if (segment == "static"){
+        seg = "LCL";
+    }   
+
+    ASM += "@" + to_string(offset) + "\nD=A\n" +"@" + seg + "\nA=M+D\nD=A\n@R14\n@SP\nAM=M-1\nD=M\nD=M\n@R14\nA=M\nM=D\n";
+
+    return ASM;
 }
 
 /** Generate Hack Assembly code for a VM add operation */
