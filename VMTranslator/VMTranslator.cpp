@@ -48,10 +48,9 @@ string VMTranslator::vm_push(string segment, int offset){
 
 /** Generate Hack Assembly code for a VM pop operation */
 string VMTranslator::vm_pop(string segment, int offset){ 
+
     string ASM = "";
     string seg = "";
-
-    
 
     if (segment == "local"){
         seg = "LCL";
@@ -69,9 +68,7 @@ string VMTranslator::vm_pop(string segment, int offset){
     } else if (segment == "static"){
         seg = "LCL";
     }   
-
-    ASM += "@" + to_string(offset) + "\nD=A\n" +"@" + seg + "\nA=M+D\nD=A\n@R14\n@SP\nAM=M-1\nD=M\nD=M\n@R14\nA=M\nM=D\n";
-
+    ASM += "@SP\nAM=M-1\nD=M\n@R13\nM=D\n@" + to_string(offset) + "\nD=A\n" +"@" + seg + "\nA=M+D\nD=A\n@R14\nM=D\n@R14\nM=D\n@R13\nD=M\n@R14\nA=M\nM=D\n";
     return ASM;
 }
 
