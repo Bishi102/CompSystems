@@ -45,11 +45,11 @@ string VMTranslator::vm_push(string segment, int offset){
         ASM += "@" + to_string(offset) + "\nD=A\n@3\nA=A+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
         return ASM;
     } else if (segment == "this"){
-        seg = "THIS";
-        ASM += "@" + to_string(offset) + "\nD=A\n" + "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        ASM += "@" + to_string(offset) + "\nD=A\n" + "@THIS" + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        return ASM;
     } else if (segment == "that"){
-        seg = "THAT";
-        ASM += "@" + to_string(offset) + "\nD=A\n" + "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        ASM += "@" + to_string(offset) + "\nD=A\n" + "@THAT" + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        return ASM;
     }
 }
 
@@ -57,10 +57,11 @@ string VMTranslator::vm_push(string segment, int offset){
 string VMTranslator::vm_pop(string segment, int offset){ 
 
     string ASM = "";
-    string seg = "";
+    string seg = "@SP\nAM=M-1\nD=A\n";
 
     if (segment == "local"){
         seg = "LCL";
+        ASM += "@" + seg + "A=A+1";
     } else if (segment == "argument"){
         seg = "ARG";
     } else if (segment == "this"){
