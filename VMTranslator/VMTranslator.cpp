@@ -55,7 +55,7 @@ string VMTranslator::vm_push(string segment, int offset){
 string VMTranslator::vm_pop(string segment, int offset){ 
 
     string ASM = "";
-    string seg = "@SP\nAM=M-1\nD=A\n";
+    string seg = "@SP\nAM=M-1\nD=M\n";
 
     if (segment == "local"){
         ASM += "@LCL\nM=D";
