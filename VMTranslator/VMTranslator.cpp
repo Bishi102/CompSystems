@@ -54,20 +54,19 @@ string VMTranslator::vm_push(string segment, int offset){
 /** Generate Hack Assembly code for a VM pop operation */
 string VMTranslator::vm_pop(string segment, int offset){ 
 
-    string ASM = "";
-    string seg = "@SP\nAM=M-1\nD=M\n";
+    string ASM = "@SP\nAM=M-1\nD=M\n";
 
     if (segment == "local"){
-        ASM += "@LCL\nM=D";
+        ASM += "@LCL\nM=D\n";
         return ASM;
     } else if (segment == "argument"){
-        ASM += "@ARG\nM=D";
+        ASM += "@ARG\nM=D\n";
         return ASM;
     } else if (segment == "this"){
-        ASM += "@THIS\nM=D";
+        ASM += "@THIS\nM=D\n";
         return ASM;
     } else if (segment == "that") {
-        ASM += "@THAT\nM=D";
+        ASM += "@THAT\nM=D\n";
         return ASM;
     } else if (segment == "temp"){
         ASM += "@5\n";
