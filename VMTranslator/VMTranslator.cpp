@@ -49,6 +49,7 @@ string VMTranslator::vm_push(string segment, int offset){
         ASM += "@" + to_string(offset) + "\nD=A\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
         return ASM;
     }
+    return ASM;
 }
 
 /** Generate Hack Assembly code for a VM pop operation */
@@ -64,13 +65,25 @@ string VMTranslator::vm_pop(string segment, int offset){
         ASM += "M=D\n";
         return ASM;
     } else if (segment == "argument"){
-        ASM += "@ARG\nM=D\n";
+        ASM += "@ARG\n";
+        for (int i=0; i<offset; i++) {
+            ASM += "A=A+1\n";
+        }
+        ASM += "M=D\n";
         return ASM;
     } else if (segment == "this"){
-        ASM += "@THIS\nM=D\n";
+        ASM += "@THIS\n";
+        for (int i=0; i<offset; i++) {
+            ASM += "A=A+1\n";
+        }
+        ASM += "M=D\n";
         return ASM;
     } else if (segment == "that") {
-        ASM += "@THAT\nM=D\n";
+        ASM += "@THAT\n";
+        for (int i=0; i<offset; i++) {
+            ASM += "A=A+1\n";
+        }
+        ASM += "M=D\n";
         return ASM;
     } else if (segment == "temp"){
         ASM += "@5\n";
@@ -94,6 +107,7 @@ string VMTranslator::vm_pop(string segment, int offset){
         ASM += "M=D\n";
         return ASM;
     }
+    return ASM;
 }
 
 /** Generate Hack Assembly code for a VM add operation */
