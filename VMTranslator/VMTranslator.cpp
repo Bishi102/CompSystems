@@ -46,10 +46,10 @@ string VMTranslator::vm_push(string segment, int offset){
         return ASM;
     } else if (segment == "this"){
         seg = "THIS";
-        ASM += "@" + seg + "\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        ASM += "@" + to_string(offset) + "\nD=A\n" + "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
     } else if (segment == "that"){
         seg = "THAT";
-        ASM += "@" + seg + "\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        ASM += "@" + to_string(offset) + "\nD=A\n" + "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
     }
 }
 
@@ -66,7 +66,7 @@ string VMTranslator::vm_pop(string segment, int offset){
     } else if (segment == "this"){
         seg = "THIS";
     } else if (segment == "that") {
-        seg = "THAT";
+        seg = "";
     }
     
     
