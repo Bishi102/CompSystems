@@ -46,10 +46,10 @@ string VMTranslator::vm_push(string segment, int offset){
         return ASM;
     } else if (segment == "this"){
         seg = "THIS";
-        ASM += "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        ASM += "@" + seg + "\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
     } else if (segment == "that"){
         seg = "THAT";
-        ASM += "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        ASM += "@" + seg + "\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
     }
 }
 
