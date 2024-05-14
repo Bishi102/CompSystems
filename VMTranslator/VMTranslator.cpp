@@ -25,12 +25,16 @@ string VMTranslator::vm_push(string segment, int offset){
     string seg = "";
 
     if (segment == "local"){
-        seg = "LCL";
-        ASM += "@" + to_string(offset) + "\nD=A\n" + "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        ASM += "@" + to_string(offset) + "\nD=A\n" + "@LCL" + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
         return ASM;
     } else if (segment == "argument"){
-        seg = "ARG";
-        ASM += "@" + to_string(offset) + "\nD=A\n" + "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        ASM += "@" + to_string(offset) + "\nD=A\n" + "@ARG" + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        return ASM;
+    } else if (segment == "this"){
+        ASM += "@" + to_string(offset) + "\nD=A\n" + "@THIS" + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        return ASM;
+    } else if (segment == "that"){
+        ASM += "@" + to_string(offset) + "\nD=A\n" + "@THAT" + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
         return ASM;
     } else if (segment == "temp"){
         ASM += "@" + to_string(offset) + "\nD=A\n@5\nA=A+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
@@ -38,17 +42,11 @@ string VMTranslator::vm_push(string segment, int offset){
     } else if (segment == "static"){
         ASM += "@" + to_string(offset) + "\nD=A\n@16\nA=A+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
         return ASM;
-    } else if (segment == "constant") {
-        ASM += "@" + to_string(offset) + "\nD=A\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
-        return ASM;
     } else if (segment == "pointer") {
         ASM += "@" + to_string(offset) + "\nD=A\n@3\nA=A+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
         return ASM;
-    } else if (segment == "this"){
-        ASM += "@" + to_string(offset) + "\nD=A\n" + "@THIS" + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
-        return ASM;
-    } else if (segment == "that"){
-        ASM += "@" + to_string(offset) + "\nD=A\n" + "@THAT" + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+    } else if (segment == "constant") {
+        ASM += "@" + to_string(offset) + "\nD=A\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
         return ASM;
     }
 }
@@ -60,25 +58,39 @@ string VMTranslator::vm_pop(string segment, int offset){
     string seg = "@SP\nAM=M-1\nD=A\n";
 
     if (segment == "local"){
-        seg = "LCL";
-        ASM += "@" + seg + "A=A+1";
+        ASM += "@LCL\nM=D";
+        return ASM;
     } else if (segment == "argument"){
-        seg = "ARG";
+        ASM += "@ARG\nM=D";
+        return ASM;
     } else if (segment == "this"){
-        seg = "THIS";
+        ASM += "@THIS\nM=D";
+        return ASM;
     } else if (segment == "that") {
-        seg = "";
-    }
-    
-    
-    
-    else if (segment == "temp"){
-        seg = "LCL";
+        ASM += "@THAT\nM=D";
+        return ASM;
+    } else if (segment == "temp"){
+        ASM += "@5\n";
+        for (int i=0; i<offset; i++) {
+            ASM += "A=A+1\n";
+        }
+        ASM += "M=D\n";
+        return ASM;
     } else if (segment == "static"){
-        seg = "LCL";
-    }   
-    ASM += "@SP\nAM=M-1\nD=M\n@R13\nM=D\n@" + to_string(offset) + "\nD=A\n" +"@" + seg + "\nA=M+D\nD=A\n@R14\nM=D\n@R14\nM=D\n@R13\nD=M\n@R14\nA=M\nM=D\n";
-    return ASM;
+        ASM += "@16\n";
+        for (int i=0; i<offset; i++) {
+            ASM += "A=A+1\n";
+        }
+        ASM += "M=D\n";
+        return ASM;
+    } else if (segment == "pointer") {
+        ASM += "@3\n";
+        for (int i=0; i<offset; i++) {
+            ASM += "A=A+1\n";
+        }
+        ASM += "M=D\n";
+        return ASM;
+    }
 }
 
 /** Generate Hack Assembly code for a VM add operation */
