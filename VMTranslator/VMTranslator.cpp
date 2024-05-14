@@ -33,18 +33,17 @@ string VMTranslator::vm_push(string segment, int offset){
         ASM += "@" + to_string(offset) + "\nD=A\n" + "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
         return ASM;
     } else if (segment == "temp"){
-        seg = "LCL";
-        ASM += "@" + to_string(offset) + "\nD=A\n" + "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        ASM += "@" + to_string(offset) + "\nD=A\n@5\nA=A+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
         return ASM;
     } else if (segment == "static"){
-        seg = "LCL";
-        ASM += "@" + to_string(offset) + "\nD=A\n" + "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        ASM += "@" + to_string(offset) + "\nD=A\n@16\nA=A+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
         return ASM;
     } else if (segment == "constant") {
         ASM += "@" + to_string(offset) + "\nD=A\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
         return ASM;
     } else if (segment == "pointer") {
         ASM += "@" + to_string(offset) + "\nD=A\n@3\nA=A+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        return ASM;
     } else if (segment == "this"){
         seg = "THIS";
         ASM += "@" + to_string(offset) + "\nD=A\n" + "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
