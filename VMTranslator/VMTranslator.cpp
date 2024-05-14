@@ -46,10 +46,10 @@ string VMTranslator::vm_push(string segment, int offset){
         return ASM;
     } else if (segment == "this"){
         seg = "THIS";
-        ASM += "@" + to_string(offset) + "\nD=A\n" + "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        ASM += "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
     } else if (segment == "that"){
         seg = "THAT";
-        ASM += "@" + to_string(offset) + "\nD=A\n" + "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+        ASM += "@" + seg + "\nA=M+D\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
     }
 }
 
@@ -63,14 +63,15 @@ string VMTranslator::vm_pop(string segment, int offset){
         seg = "LCL";
     } else if (segment == "argument"){
         seg = "ARG";
-    } else if (segment == "pointer"){
-        if (offset == 0){
-            seg = "THIS";
-        } else {
-            seg = "THAT";
-            offset = 0;
-        }
-    } else if (segment == "temp"){
+    } else if (segment == "this"){
+        seg = "THIS";
+    } else if (segment == "that") {
+        seg = "THAT";
+    }
+    
+    
+    
+    else if (segment == "temp"){
         seg = "LCL";
     } else if (segment == "static"){
         seg = "LCL";
