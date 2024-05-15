@@ -57,7 +57,35 @@ string VMTranslator::vm_pop(string segment, int offset){
 
     string ASM = "@SP\nAM=M-1\nD=M\n";
 
-     if (segment == "temp"){
+    if (segment == "local"){
+        ASM += "@LCL\nA=M\n";
+        for (int i=0; i<offset; i++) {
+            ASM += "A=A+1\n";
+        }
+        ASM += "M=D\n";
+        return ASM;
+    } else if (segment == "argument"){
+        ASM += "@ARG\nA=M\n";
+        for (int i=0; i<offset; i++) {
+            ASM += "A=A+1\n";
+        }
+        ASM += "M=D\n";
+        return ASM;
+    } else if (segment == "this"){
+        ASM += "@THIS\nA=M\n";
+        for (int i=0; i<offset; i++) {
+            ASM += "A=A+1\n";
+        }
+        ASM += "M=D\n";
+        return ASM;
+    } else if (segment == "that") {
+        ASM += "@THAT\nA=M\n";
+        for (int i=0; i<offset; i++) {
+            ASM += "A=A+1\n";
+        }
+        ASM += "M=D\n";
+        return ASM;
+    } else if (segment == "temp"){
         ASM += "@5\n";
         for (int i=0; i<offset; i++) {
             ASM += "A=A+1\n";
