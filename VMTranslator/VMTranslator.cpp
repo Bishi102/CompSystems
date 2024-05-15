@@ -85,28 +85,7 @@ string VMTranslator::vm_pop(string segment, int offset){
         }
         ASM += "M=D\n";
         return ASM;
-    } else if (segment == "temp"){
-        ASM += "@5\n";
-        for (int i=0; i<offset; i++) {
-            ASM += "A=A+1\n";
-        }
-        ASM += "M=D\n";
-        return ASM;
-    } else if (segment == "static"){
-        ASM += "@16\n";
-        for (int i=0; i<offset; i++) {
-            ASM += "A=A+1\n";
-        }
-        ASM += "M=D\n";
-        return ASM;
-    } else if (segment == "pointer") {
-        ASM += "@3\n";
-        for (int i=0; i<offset; i++) {
-            ASM += "A=A+1\n";
-        }
-        ASM += "M=D\n";
-        return ASM;
-    }
+    } 
     return ASM;
 }
 
