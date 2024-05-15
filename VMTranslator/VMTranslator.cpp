@@ -134,7 +134,7 @@ string VMTranslator::vm_neg(){
 /** Generate Hack Assembly code for a VM eq operation */
 string VMTranslator::vm_eq(){
     string ASM = "";
-    ASM += vm_pop("temp", 8) + vm_pop("temp", 9) + "@14\nD=M\n@13\nM=M-D\nM:JEQ VMeq\n@13\nM=0\n(VMeq)\n@13\nM=-1" + vm_push("temp", 8);
+    ASM += vm_pop("temp", 8) + vm_pop("temp", 9) + "@14\nD=M\n@13\nM=M-D\nM;JEQ VMeq\n@13\nM=0\n(VMeq)\n@13\nM=-1" + vm_push("temp", 8);
     return ASM;
 }
 
