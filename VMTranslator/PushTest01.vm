@@ -1,7 +1,5 @@
 // 
 
 push constant 1
-push static 2
-push argument 1
-push local 2
-push temp 3
+push constant 1
+eq 
