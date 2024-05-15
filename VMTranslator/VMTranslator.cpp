@@ -112,7 +112,8 @@ string VMTranslator::vm_pop(string segment, int offset){
 
 /** Generate Hack Assembly code for a VM add operation */
 string VMTranslator::vm_add(){
-    return "";
+    string ASM = "";
+    ASM += vm_pop("temp", 8) + vm_pop("temp", 9) + "@14\nD=M\n@13\nM=M+D\n" + vm_push("temp", 8);
 }
 
 /** Generate Hack Assembly code for a VM sub operation */
