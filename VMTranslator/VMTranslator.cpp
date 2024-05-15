@@ -127,7 +127,7 @@ string VMTranslator::vm_sub(){
 /** Generate Hack Assembly code for a VM neg operation */
 string VMTranslator::vm_neg(){
     string ASM = "";
-    ASM += vm_pop("temp", 8) += "@13\nM=!M\n" + vm_push("temp", 8);
+    ASM += vm_pop("temp", 8) += "@13\nM=!M\nM=M+1\n" + vm_push("temp", 8);
     return ASM;
 }
 
