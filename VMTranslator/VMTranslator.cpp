@@ -120,7 +120,7 @@ string VMTranslator::vm_add(){
 /** Generate Hack Assembly code for a VM sub operation */
 string VMTranslator::vm_sub(){
     string ASM = "";
-    ASM += vm_pop("temp", 8) + vm_pop("temp", 9) + "@14\nD=M\n@13\nM=M-D\n" + vm_push("temp", 8);
+    ASM += vm_pop("temp", 8) + vm_pop("temp", 9) + "@13\nD=M\n@14\nM=M-D\n" + vm_push("temp", 9);
     return ASM;
 }
 
