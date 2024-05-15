@@ -136,10 +136,11 @@ string VMTranslator::vm_eq(){
     string ASM = "";
     ASM += vm_pop("temp", 8) + vm_pop("temp", 9);
     ASM += "@R13\nD=M\n@VMN1POS\nD;JGT\n";
-    ASM += "@R14\nD=M\n@VMN2POS\nD;JGT\n";
+    ASM += "@R14\nD=M\n@VMN2POS1\nD;JGT\n";
     ASM += "@14\nD=M\n@13\nD=D-M\n@VMeq\nD;JEQ\n@13\nM=0\n@VMeqend\n0;JMP\n(VMeq)\n@13\nM=-1\n(VMeqend)\n" + vm_push("temp", 8);
-    ASM += "(VMN2POS)\n@R13\nM=0\n";
-    ASM += "(VMN1POS)\n@R14\nD=M\n@VMN2POS\nD;JGT\n";
+    ASM += "(VMN2POS2)\nR13\nM=0\n";
+    ASM += "(VMN2POS2)\n@14\nD=M\n@13\nD=D-M\n@VMeq\nD;JEQ\n@13\nM=0\n@VMeqend\n0;JMP\n(VMeq)\n@13\nM=-1\n(VMeqend)\n" + vm_push("temp", 8);
+    ASM += "(VMN1POS)\n@R14\nD=M\n@VMN2POS1\nD;JGT\n";
     ASM += "@R13\nM=0\n";
     return ASM;
 }
