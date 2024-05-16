@@ -135,12 +135,12 @@ string VMTranslator::vm_neg(){
 string VMTranslator::vm_eq(){
     string ASM = "";
     ASM += vm_pop("temp", 8) + vm_pop("temp", 9);
-    ASM += "@13\nD=M\n@VMN1POS\nD;JGT\n";
-    ASM += "@14\nD=M\n@VMN2POS2\nD;JGT\n";
-    ASM += "(VMN2POS1)\n@14\nD=M\n@13\nD=D-M\n@VMeq\nD;JEQ\n@13\nM=0\n@VMeqend1\n0;JMP\n(VMeq)\n@13\nM=-1\n(VMeqend1)\n@VMeqend2\n0;JMP\n";
-    ASM += "(VMN2POS2)\n@13\nM=0\n@VMeqend2\n0;JMP\n";
-    ASM += "(VMN1POS)\n@R14\nD=M\n@VMN2POS1\nD;JGT\n";
-    ASM += "@R13\nM=0\n(VMeqend2)\n" + vm_push("temp", 8);
+    ASM += "@13\nD=M\n@VMPOS\nD;JGT\n";
+    ASM += "@14\nD=M\n@VMPOS2\nD;JGT\n";
+    ASM += "(VMNEG)\n@14\nD=M\n@13\nD=D-M\n@VMeq\nD;JEQ\n@13\nM=0\n@VMeqend1\n0;JMP\n(VMeq)\n@13\nM=-1\n(VMeqend1)\n@VMeqend2\n0;JMP\n";
+    ASM += "(VMPOS2)\n@13\nM=0\n@VMeqend2\n0;JMP\n";
+    ASM += "(VMPOS)\n@14\nD=M\n@VMNEG\nD;JGT\n";
+    ASM += "@13\nM=0\n(VMeqend2)\n" + vm_push("temp", 8);
     return ASM;
 }
 
