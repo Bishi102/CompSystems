@@ -1,6 +1,6 @@
 // edge case: fib zero
 
-load Fib.vm,
+load,
 output-file Fib01.out,
 compare-to Fib01.cmp,
 output-list sp%D1.6.1 local%D1.6.1 argument%D1.8.1 this%D1.6.1 that%D1.6.1

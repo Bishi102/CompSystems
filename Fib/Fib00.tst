@@ -2,7 +2,7 @@
 // Follows the Test Scripting Language format described in 
 // Appendix B of the book "The Elements of Computing Systems"
 
-load Fib.vm,
+load,
 output-file Fib00.out,
 compare-to Fib00.cmp,
 output-list sp%D1.6.1 local%D1.6.1 argument%D1.8.1 this%D1.6.1 that%D1.6.1
