@@ -3,14 +3,6 @@
 
 // Put your code here.
 
-function Fib.init 0
-
-push static 1
-call Fib.fib 1
-pop static 0
-
-label END
-goto END
 function Fib.fib 0
     push argument 0
     push constant 2
