@@ -1,5 +1,5 @@
 // 
 
-push constant 1
-push constant 1
+push constant 10
+push constant 20
 eq 
