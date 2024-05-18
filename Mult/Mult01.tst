@@ -1,4 +1,4 @@
-// edge: 0x0
+// edge: 0x5
 
 load Mult.vm,
 output-file Mult01.out,
@@ -15,7 +15,7 @@ set this 3000,     // base address of the this segment
 set that 3010,     // base address of the that segment
 
 set RAM[16] 0,   // static 0
-set RAM[17] 0,  // static 1
+set RAM[17] 5,  // static 1
 set RAM[18] 0,   // static 2
 set RAM[19] 0,   // static 3
 set RAM[20] 0,   // static 4

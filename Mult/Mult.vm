@@ -4,12 +4,17 @@
 // x & y are static variables
 
 // Initialize loop counter, ncounter, and mult to 0
-push constant 1
-pop static 2 // loop counter
-push constant 0 
-pop static 3 // ncounter
-push constant 0
-pop static 4 // mult
+    push constant 1
+    pop static 2 // loop counter
+    push constant 0 
+    pop static 3 // ncounter
+    push constant 0
+    pop static 4 // mult
+
+    push static 0
+    pop static 5 // save original x to static 5
+    push static 1
+    pop static 6 // save original y to static 6
 
 // Negate negatives and increment ncounter
     push static 0
@@ -78,14 +83,26 @@ label LOOP
 
 label LOOPEND
     push static 4    
-    push constant 0
     push static 3
-    eq
-    if-goto DONE
+    push constant 1
+    and
+    if-goto NEGATE_RESULT
 
+    goto DONE
+
+label NEGATE_RESULT
+    push static 4
     neg
+    pop static 4
 
 label DONE
+
+    push static 5
+    pop static 0 // restore original x from static 5
+    push static 6
+    pop static 1 // restore original y from static 6
+
+    push static 4
     pop local 0
 
 label END
