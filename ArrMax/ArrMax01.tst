@@ -31,7 +31,7 @@ set RAM[2049] 0,  // Set Arr[1]
 set RAM[2050] 0,  // Set Arr[2]
 set RAM[2051] 0;  // Set Arr[3]
 
-repeat 100 {        // Change this number to cover the number of instructions in the VM test file
+repeat 150 {        // Change this number to cover the number of instructions in the VM test file
   vmstep;
 }
 output;
