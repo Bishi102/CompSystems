@@ -152,7 +152,7 @@ string VMTranslator::vm_or(){
 
 /** Generate Hack Assembly code for a VM not operation */
 string VMTranslator::vm_not(){
-    return vm_pop("temp", 8) + "@R13\nM=!M\nM=M+1\n" + vm_push("temp", 8);
+    return vm_pop("temp", 8) + "@R13\nM=!M\n" + vm_push("temp", 8);
 }
 
 /** Generate Hack Assembly code for a VM label operation */
