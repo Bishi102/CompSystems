@@ -82,13 +82,15 @@ label LOOP
     goto LOOP
 
 label LOOPEND
-    push static 4    
     push static 3
     push constant 1
     and
+    push constant 1
+    eq
     if-goto NEGATE_RESULT
 
     goto DONE
+
 
 label NEGATE_RESULT
     push static 4
