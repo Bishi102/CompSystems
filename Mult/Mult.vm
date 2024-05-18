@@ -1,11 +1,9 @@
-// Calculates a = x*y
+// Mult.vm
+// Calculates a = x * y
 // a is a local variable
 // x & y are static variables
 
-// Put your code here.
-
-// counter and ncounter = 0;
-
+// Initialize loop counter, ncounter, and mult to 0
 push constant 1
 pop static 2 // loop counter
 push constant 0 
@@ -13,14 +11,14 @@ pop static 3 // ncounter
 push constant 0
 pop static 4 // mult
 
-
-// negate negatives and increment ncounter;
+// Negate negatives and increment ncounter
     push static 0
     push constant 0
-    neg
-    gt
-    if-goto POS
+    lt
+    if-goto X_NEG
+    goto CHECK_Y
 
+label X_NEG
     push static 0
     neg
     pop static 0
@@ -29,34 +27,38 @@ pop static 4 // mult
     add
     pop static 3
 
-label POS
+label CHECK_Y
     push static 1
     push constant 0
-    neg
-    gt
-    if-goto SMALLBIG
+    lt
+    if-goto Y_NEG
 
+    goto FIND_SMALLER
+
+label Y_NEG
     push static 1
     neg
     pop static 1
     push static 3
     push constant 1
-    sub
+    add
     pop static 3
 
-// find smaller/bigger
-label SMALLBIG
+label FIND_SMALLER
+// Find smaller and larger values
     push static 0
     push static 1
     lt
     if-goto LOOP
+
+// Swap x and y if x is greater than y
     push static 0
     push static 1
     pop static 0
     pop static 1
 
-// multiply x and y, ensuring loop iteration is done by smaller of x,y
 label LOOP
+// Multiply x and y, ensuring loop iteration is done by smaller of x,y
     push static 2
     push static 0
     gt
@@ -80,6 +82,7 @@ label LOOPEND
     push static 3
     eq
     if-goto DONE
+
     neg
 
 label DONE
