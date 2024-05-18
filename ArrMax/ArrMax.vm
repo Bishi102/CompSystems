@@ -18,7 +18,7 @@ function ArrMax.arrMax 3
     push that 0
     pop local 0 // max
     
-    push constant 1
+    push constant 0
     pop local 1 // loop counter
 
     push argument 1
