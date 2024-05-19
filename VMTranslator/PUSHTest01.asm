@@ -1,5 +1,3 @@
-//Generated from VMTranslator
-
 @3
 D=A
 @LCL
