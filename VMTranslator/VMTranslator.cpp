@@ -155,7 +155,7 @@ string VMTranslator::vm_label(string label){
 
 /** Generate Hack Assembly code for a VM goto operation */
 string VMTranslator::vm_goto(string label){
-    return "";
+    return "@" + label + "\n0;JMP\n";
 }
 
 /** Generate Hack Assembly code for a VM if-goto operation */
