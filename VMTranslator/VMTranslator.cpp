@@ -192,7 +192,7 @@ string VMTranslator::vm_function(string function_name, int n_vars){
     string ASM = "";
     ASM += vm_label(function_name);
     for (int i=0; i<n_vars; i++) {
-        ASM += "@SP\nA=M\nM=0\n@SP\nM=M+1\n";
+        ASM += vm_push("constant", 0);
     }
     return ASM;
 }
