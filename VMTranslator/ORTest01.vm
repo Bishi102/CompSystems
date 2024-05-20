@@ -1,0 +1,4 @@
+push constant 1000
+push static 123
+or
+pop that 0

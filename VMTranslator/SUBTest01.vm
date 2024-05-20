@@ -1,0 +1,4 @@
+push static 127
+push constant 12
+sub
+

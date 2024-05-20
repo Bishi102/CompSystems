@@ -1,0 +1,4 @@
+push constant 12
+push static 133
+and
+pop this 0

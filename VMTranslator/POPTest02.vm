@@ -1,0 +1,6 @@
+push constant 999
+push constant 12
+push static 2
+add
+add
+pop that 0

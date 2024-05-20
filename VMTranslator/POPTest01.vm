@@ -1,0 +1,5 @@
+push static 0
+push constant 999
+pop pointer 0
+pop this 0
+
