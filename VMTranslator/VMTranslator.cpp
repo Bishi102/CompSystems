@@ -221,7 +221,7 @@ string VMTranslator::vm_call(string function_name, int n_args){
 string VMTranslator::vm_return(){
     return
     vm_push("local", 0) + vm_pop("temp", 0) +
-    "@5\nD=A\n\n@R6\nM=D\n" +
+    "@5\nD=M\nD=D-A\n@R6\nM=D\n" +
     vm_pop("argument", 0) +
     "@ARG\nD=M+1\n@SP\nM=D\n" + 
     "@R5\nM=M-1\nD=M\n@THAT\nM=D\n" + 
