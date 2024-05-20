@@ -217,6 +217,14 @@ string VMTranslator::vm_call(string function_name, int n_args){
 
 /** Generate Hack Assembly code for a VM return operation */
 string VMTranslator::vm_return(){
-    return "";
-    
+    return
+    vm_push("local", 0) + vm_pop("temp", 8) +
+    "@5\nA=D-A\nD=M\n@R14\nM=D\n" +
+    vm_pop("argument", 0) +
+    "@ARG\nD=M+1\n@SP\nM=D\n" + 
+    "@R13\nAM=M-1\nD=M\n@THAT\nM=D\n" + 
+    "@R13\nAM=M-1\nD=M\n@THIS\nM=D\n" + 
+    "@R13\nAM=M-1\nD=M\n@ARG\nM=D\n" + 
+    "@R13\nAM=M-1\nD=M\n@LCL\nM=D\n" +
+    "@R14\nA=M\n0;JMP\n";
 }
