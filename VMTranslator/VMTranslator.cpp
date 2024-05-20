@@ -160,7 +160,7 @@ string VMTranslator::vm_goto(string label){
 
 /** Generate Hack Assembly code for a VM if-goto operation */
 string VMTranslator::vm_if(string label){
-    return vm_pop("temp", 8) + "@R13\nD=M\n@label\nD;JEQ\n";
+    return vm_pop("temp", 8) + "@R13\nD=M\n@" + label + "\nD;JEQ\n";
 }
 
 /** Generate Hack Assembly code for a VM function operation */
