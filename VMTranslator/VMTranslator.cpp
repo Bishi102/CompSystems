@@ -220,12 +220,5 @@ string VMTranslator::vm_call(string function_name, int n_args){
 /** Generate Hack Assembly code for a VM return operation */
 string VMTranslator::vm_return(){
     return
-    "@LCL\nD=M\n@R13\nM=D\n@5\nA=D-A\nD=M\n@R14\nM=D\n" +
-    "@SP\nAM=M-1\nD=M\n@ARG\nA=M\nM=D\n" +
-    "@ARG\nD=M+1\n@SP\nM=D\n" + 
-    "@R13\nM=M-1\nD=M\n@THAT\nM=D\n" + 
-    "@R13\nM=M-1\nD=M\n@THIS\nM=D\n" + 
-    "@R13\nM=M-1\nD=M\n@ARG\nM=D\n" + 
-    "@R13\nM=M-1\nD=M\n@LCL\nM=D\n" +
-    "@R14\nA=M\n\n0;JMP\n";
+    "@LCL\nD=M\n@R13\nM=D\n@5\nA=D-A\nD=M\n@R14\nM=D\n@SP\nAM=M-1\nD=M\n@ARG\nA=M\nM=D\n@ARG\nD=M+1\n@SP\nM=D\n@R13\nM=M-1\nD=M\n@THAT\nM=D\n@R13\nM=M-1\nD=M\n@THIS\nM=D\n@R13\nM=M-1\nD=M\n@ARG\nM=D\n@R13\nM=M-1\nD=M\n@LCL\nM=D\n@R14\nA=M\n\n0;JMP\n";
 }
