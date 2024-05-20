@@ -210,7 +210,7 @@ string VMTranslator::vm_call(string function_name, int n_args){
         "@R3\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
         "@R4\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
 
-        "@SP\nD=M\n@" + to_string(n_args) + "\nD=D-A\n@ARG\nM=D\n" +
+        "@SP\nD=M\n@" + to_string(n_args) + "\nD=D-A\n@5\nD=D-A\n@ARG\nM=D\n" +
 
         vm_goto(function_name) +
         vm_label(returnLabel);
