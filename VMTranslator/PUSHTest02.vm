@@ -6,5 +6,3 @@ push temp 7
 push static 238
 push pointer 1
 push constant 32767
-label END
-goto END

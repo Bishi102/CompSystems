@@ -6,3 +6,5 @@ push temp 3
 push static 2
 push pointer 1
 push constant 12
+label END
+goto END

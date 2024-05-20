@@ -1,0 +1,21 @@
+label LOOP
+push static 0
+push constant 5
+sub
+if-goto END
+
+push static 1
+push constant 1
+add
+pop static 1
+push static 1
+push constant 99
+sub
+if-goto END
+
+push static 0
+push constant 1
+add
+goto LOOP
+label END
+goto END

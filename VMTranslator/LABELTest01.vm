@@ -1,3 +1,4 @@
+label START
 push local 3
 push argument 0
 push this 0
@@ -6,3 +7,4 @@ push temp 3
 push static 2
 push pointer 1
 push constant 12
+label END
