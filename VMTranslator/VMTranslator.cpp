@@ -201,23 +201,33 @@ string VMTranslator::vm_call(string function_name, int n_args){
     static int callCounter = 0;
     string returnLabel = function_name + "$ret." + to_string(callCounter);
     callCounter++;
-    return 
-        "@" + returnLabel + "\nD=A\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
+    string ASM = "";
+    ASM += "@" + returnLabel + "\nD=A\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
 
-        "@LCL\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
-        "@ARG\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
-        "@THIS\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
-        "@THAT\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
+    ASM += "@LCL\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+    ASM += "@ARG\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+    ASM += "@THIS\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
+    ASM += "@THAT\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
 
-        "@SP\nD=M\n@" + (to_string(n_args + 5)) + "\nD=D-A\n@ARG\nM=D\n" +
-        "@SP\nD=M\n@LCL\nM=D\n" +
+    ASM += "@SP\nD=M\n@" + (to_string(n_args + 5)) + "\nD=D-A\n@ARG\nM=D\n";
+    ASM += "@SP\nD=M\n@LCL\nM=D\n";
 
-        vm_goto(function_name) +
-        vm_label(returnLabel);
+    ASM += vm_goto(function_name);
+    ASM += vm_label(returnLabel);
+    return ASM;
 }
 
 /** Generate Hack Assembly code for a VM return operation */
 string VMTranslator::vm_return(){
-    return
-    "@LCL\nD=M\n@R13\nM=D\n@5\nA=D-A\nD=M\n@R14\nM=D\n@SP\nAM=M-1\nD=M\n@ARG\nA=M\nM=D\n@ARG\nD=M+1\n@SP\nM=D\n@R13\nM=M-1\nD=M\n@THAT\nM=D\n@R13\nM=M-1\nD=M\n@THIS\nM=D\n@R13\nM=M-1\nD=M\n@ARG\nM=D\n@R13\nM=M-1\nD=M\n@LCL\nM=D\n@R14\nA=M\n\n0;JMP\n";
+    string ASM = "";
+    ASM += "@LCL\nD=M\n@R13\nM=D\n";
+    ASM += "@5\nA=D-A\nD=M\n@R14\nM=D\n";
+    ASM += "@SP\nAM=M-1\nD=M\n@ARG\nA=M\nM=D\n";
+    ASM += "@ARG\nD=M+1\n@SP\nM=D\n";
+    ASM += "@R13\nM=M-1\nD=M\n@THAT\nM=D\n";
+    ASM += "@R13\nM=M-1\nD=M\n@THIS\nM=D\n";
+    ASM += "@R13\nM=M-1\nD=M\n@ARG\nM=D\n";
+    ASM += "@R13\nM=M-1\nD=M\n@LCL\nM=D\n";
+    ASM += "@R14\nA=M\n\n0;JMP\n";
+    return ASM;
 }
