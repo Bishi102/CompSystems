@@ -205,10 +205,10 @@ string VMTranslator::vm_call(string function_name, int n_args){
     return 
         "@" + returnLabel + "\nD=A\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
 
-        vm_push("local", 0) + 
-        vm_push("argument", 0) + 
-        vm_push("this", 0) + 
-        vm_push("that", 0) + 
+        "@R1\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
+        "@R2\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
+        "@R3\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
+        "@R4\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
 
         "@SP\nD=M\n@" + to_string(n_args) + "\nD=D-A\n@ARG\nM=D\n" +
 
