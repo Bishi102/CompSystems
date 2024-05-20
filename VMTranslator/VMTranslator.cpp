@@ -101,18 +101,29 @@ string VMTranslator::vm_pop(string segment, int offset){
 
 /** Generate Hack Assembly code for a VM add operation */
 string VMTranslator::vm_add(){
-    return vm_pop("temp", 8) + vm_pop("temp", 9) + "@14\nD=M\n@13\nM=M+D\n" + vm_push("temp", 8);
+    return 
+        vm_pop("temp", 8) + 
+        vm_pop("temp", 9) + 
+        "@14\nD=M\n@13\nM=M+D\n" + 
+        vm_push("temp", 8);
 }
 
 /** Generate Hack Assembly code for a VM sub operation */
 string VMTranslator::vm_sub(){
-    return vm_pop("temp", 8) + vm_pop("temp", 9) + "@13\nD=M\n@14\nM=M-D\n" + vm_push("temp", 9);
+    return 
+        vm_pop("temp", 8) + 
+        vm_pop("temp", 9) + 
+        "@13\nD=M\n@14\nM=M-D\n" + 
+        vm_push("temp", 9);
 
 }
 
 /** Generate Hack Assembly code for a VM neg operation */
 string VMTranslator::vm_neg(){
-    return vm_pop("temp", 8) += "@13\nM=!M\nM=M+1\n" + vm_push("temp", 8);
+    return 
+        vm_pop("temp", 8) += 
+        "@13\nM=!M\nM=M+1\n" + 
+        vm_push("temp", 8);
 
 }
 
@@ -134,18 +145,28 @@ string VMTranslator::vm_lt(){
 
 /** Generate Hack Assembly code for a VM and operation */
 string VMTranslator::vm_and(){
-    return vm_pop("temp", 8) + vm_pop("temp", 9) + "@R14\nD=M\n@R13\nM=D&M\n" + vm_push("temp", 8);
+    return 
+        vm_pop("temp", 8) + 
+        vm_pop("temp", 9) + 
+        "@R14\nD=M\n@R13\nM=D&M\n" + 
+        vm_push("temp", 8);
 }
 
 /** Generate Hack Assembly code for a VM or operation */
 string VMTranslator::vm_or(){
-    return vm_pop("temp", 8) + vm_pop("temp", 9) + "@R14\nD=M\n@R13\nM=D|M\n" + vm_push("temp", 8);
+    return 
+        vm_pop("temp", 8) + 
+        vm_pop("temp", 9) + 
+        "@R14\nD=M\n@R13\nM=D|M\n" + 
+        vm_push("temp", 8);
 }
 
 /** Generate Hack Assembly code for a VM not operation */
 string VMTranslator::vm_not(){
-    return vm_pop("temp", 8) + "@R13\nM=!M\n" + vm_push("temp", 8);
-    
+    return 
+        vm_pop("temp", 8) + 
+        "@R13\nM=!M\n" + 
+        vm_push("temp", 8);
 }
 
 /** Generate Hack Assembly code for a VM label operation */
@@ -160,20 +181,42 @@ string VMTranslator::vm_goto(string label){
 
 /** Generate Hack Assembly code for a VM if-goto operation */
 string VMTranslator::vm_if(string label){
-    return vm_pop("temp", 8) + "@R13\nD=M\n@" + label + "\nD;JNE\n";
+    return 
+        vm_pop("temp", 8) + 
+        "@R13\nD=M\n@" + label + 
+        "\nD;JNE\n";
 }
 
 /** Generate Hack Assembly code for a VM function operation */
 string VMTranslator::vm_function(string function_name, int n_vars){
-    return "";
+    string ASM = "";
+    ASM += vm_label(function_name);
+    for (int i=0; i<n_vars; i++) {
+        ASM += "@SP\nA=M\nM=0\n@SP\nM=M+1\n";
+    }
+    return ASM;
 }
 
 /** Generate Hack Assembly code for a VM call operation */
 string VMTranslator::vm_call(string function_name, int n_args){
-    return "";
+    static int callCounter = 0;
+    string returnLabel = function_name + "$ret." + to_string(callCounter++);
+    return 
+        "@" + returnLabel + "\nD=A\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
+
+        vm_push("local", 0) + 
+        vm_push("argument", 0) + 
+        vm_push("this", 0) + 
+        vm_push("that", 0) + 
+
+        "@SP\nD=M\n@" + to_string(n_args) + "\nD=D-A\n@ARG\nM=D\n" +
+
+        vm_goto(function_name) +
+        vm_label(returnLabel);
 }
 
 /** Generate Hack Assembly code for a VM return operation */
 string VMTranslator::vm_return(){
     return "";
+    
 }
