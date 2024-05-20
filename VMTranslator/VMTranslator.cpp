@@ -8,7 +8,6 @@ using namespace std;
  * VMTranslator constructor
  */
 VMTranslator::VMTranslator() {
-    // Your code here
 }
 
 /**
