@@ -205,10 +205,10 @@ string VMTranslator::vm_call(string function_name, int n_args){
     return 
         "@" + returnLabel + "\nD=A\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
 
-        "@R1\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
-        "@R2\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
-        "@R3\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
-        "@R4\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
+        "@LCL\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
+        "@ARG\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
+        "@THIS\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
+        "@THAT\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n" +
 
         "@SP\nD=M\n@" + (to_string(n_args + 5)) + "\nD=D-A\n@ARG\nM=D\n" +
         "@SP\nD=M\n@LCL\nM=D\n" +
@@ -220,13 +220,13 @@ string VMTranslator::vm_call(string function_name, int n_args){
 /** Generate Hack Assembly code for a VM return operation */
 string VMTranslator::vm_return(){
     return
-    vm_push("local", 0) + vm_pop("temp", 8) +
-    "@5\nA=D-A\nD=M\n@R14\nM=D\n" +
+    vm_push("local", 0) + vm_pop("temp", 0) +
+    "@5\nD=A\n\n@R6\nM=D\n" +
     vm_pop("argument", 0) +
     "@ARG\nD=M+1\n@SP\nM=D\n" + 
-    "@R13\nAM=M-1\nD=M\n@THAT\nM=D\n" + 
-    "@R13\nAM=M-1\nD=M\n@THIS\nM=D\n" + 
-    "@R13\nAM=M-1\nD=M\n@ARG\nM=D\n" + 
-    "@R13\nAM=M-1\nD=M\n@LCL\nM=D\n" +
-    "@R14\nA=M\n0;JMP\n";
+    "@R5\nM=M-1\nD=M\n@THAT\nM=D\n" + 
+    "@R5\nM=M-1\nD=M\n@THIS\nM=D\n" + 
+    "@R5\nM=M-1\nD=M\n@ARG\nM=D\n" + 
+    "@R5\nM=M-1\nD=M\n@LCL\nM=D\n" +
+    "@R6\nA=M\n\n0;JMP\n";
 }
