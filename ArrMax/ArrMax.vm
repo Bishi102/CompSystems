@@ -14,9 +14,9 @@ goto END
 
 function ArrMax.arrMax 3
     push this 0
-    pop temp 0
+    pop temp 6
     push that 0
-    pop temp 1
+    pop temp 7
 
     push argument 0
     pop pointer 1
@@ -58,10 +58,10 @@ label IF_END
     goto LOOP
 
 label LOOP_END
-    push temp 0
+    push temp 6
     pop this 0
-    push temp 1
+    push temp 7
     pop that 0
-    
+
     push local 0
     return
