@@ -132,10 +132,10 @@ string VMTranslator::vm_eq() {
     string trueLabel = "EQ_TRUE_" + to_string(eqID);
     string endLabel = "EQ_END_" + to_string(eqID);
     string ASM = "";
-    
+
     ASM += "@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\n@";
     ASM += trueLabel;
-    ASM += "\nJ;JEQ\n@SP\nA=M-1\nM=0\n";
+    ASM += "\nJ;JEQ\n@SP\nA=M-1\nM=0\n@";
     ASM += endLabel;
     ASM += "\n0;JMP\n(";
     ASM += trueLabel;
