@@ -150,12 +150,44 @@ string VMTranslator::vm_eq() {
 
 /** Generate Hack Assembly code for a VM gt operation */
 string VMTranslator::vm_gt(){
-    return "";
+    static int eqID = 0;
+    string trueLabel = "GT_TRUE_" + to_string(eqID);
+    string endLabel = "GT_END_" + to_string(eqID);
+    string ASM = "";
+
+    ASM += "@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\n@";
+    ASM += trueLabel;
+    ASM += "\nD;JGT\n@SP\nA=M-1\nM=0\n@";
+    ASM += endLabel;
+    ASM += "\n0;JMP\n(";
+    ASM += trueLabel;
+    ASM += ")\nM=-1\n(";
+    ASM += endLabel;
+    ASM += ")";
+
+    eqID++;
+    return ASM; 
 }
 
 /** Generate Hack Assembly code for a VM lt operation */
 string VMTranslator::vm_lt(){
-    return "";
+    static int eqID = 0;
+    string trueLabel = "LT_TRUE_" + to_string(eqID);
+    string endLabel = "LT_END_" + to_string(eqID);
+    string ASM = "";
+
+    ASM += "@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\n@";
+    ASM += trueLabel;
+    ASM += "\nD;JLT\n@SP\nA=M-1\nM=0\n@";
+    ASM += endLabel;
+    ASM += "\n0;JMP\n(";
+    ASM += trueLabel;
+    ASM += ")\nM=-1\n(";
+    ASM += endLabel;
+    ASM += ")";
+
+    eqID++;
+    return ASM; 
 }
 
 /** Generate Hack Assembly code for a VM and operation */
