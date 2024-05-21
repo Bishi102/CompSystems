@@ -150,9 +150,9 @@ string VMTranslator::vm_eq() {
 
 /** Generate Hack Assembly code for a VM gt operation */
 string VMTranslator::vm_gt(){
-    static int eqID = 0;
-    string trueLabel = "GT_TRUE_" + to_string(eqID);
-    string endLabel = "GT_END_" + to_string(eqID);
+    static int gtID = 0;
+    string trueLabel = "GT_TRUE_" + to_string(gtID);
+    string endLabel = "GT_END_" + to_string(gtID);
     string ASM = "";
 
     ASM += "@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\n@";
@@ -165,15 +165,15 @@ string VMTranslator::vm_gt(){
     ASM += endLabel;
     ASM += ")";
 
-    eqID++;
+    gtID++;
     return ASM; 
 }
 
 /** Generate Hack Assembly code for a VM lt operation */
 string VMTranslator::vm_lt(){
-    static int eqID = 0;
-    string trueLabel = "LT_TRUE_" + to_string(eqID);
-    string endLabel = "LT_END_" + to_string(eqID);
+    static int ltID = 0;
+    string trueLabel = "LT_TRUE_" + to_string(ltID);
+    string endLabel = "LT_END_" + to_string(ltID);
     string ASM = "";
 
     ASM += "@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\n@";
@@ -186,7 +186,7 @@ string VMTranslator::vm_lt(){
     ASM += endLabel;
     ASM += ")";
 
-    eqID++;
+    ltID++;
     return ASM; 
 }
 
