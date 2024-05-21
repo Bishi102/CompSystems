@@ -1,0 +1,9 @@
+function xandy 2
+push argument 0
+push constant 2
+add
+return
+
+call xandy 1
+call xandy 1
+call xandy 1
