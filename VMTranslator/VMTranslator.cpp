@@ -135,7 +135,7 @@ string VMTranslator::vm_eq() {
 
     ASM += "@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\n@";
     ASM += trueLabel;
-    ASM += "\nJ;JEQ\n@SP\nA=M-1\nM=0\n@";
+    ASM += "\nD;JEQ\n@SP\nA=M-1\nM=0\n@";
     ASM += endLabel;
     ASM += "\n0;JMP\n(";
     ASM += trueLabel;
