@@ -200,7 +200,7 @@ string VMTranslator::vm_function(string function_name, int n_vars){
 string VMTranslator::vm_call(string function_name, int n_args){
     static int callCounter = 0;
     string returnLabel = function_name + "$ret." + to_string(callCounter);
-    callCounter++;
+    
     string ASM = "";
     ASM += "@" + returnLabel + "\nD=A\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
 
@@ -209,25 +209,30 @@ string VMTranslator::vm_call(string function_name, int n_args){
     ASM += "@THIS\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
     ASM += "@THAT\nD=M\n@SP\nA=M\nM=D\n@SP\nM=M+1\n";
 
-    ASM += "@SP\nD=M\n@" + (to_string(n_args + 5)) + "\nD=D-A\n@ARG\nM=D\n";
+    ASM += "@" + (to_string(n_args + 5)) + "\nD=A\n@SP\nD=M-D\n@ARG\nM=D\n";
     ASM += "@SP\nD=M\n@LCL\nM=D\n";
 
-    ASM += vm_goto(function_name);
-    ASM += vm_label(returnLabel);
+    ASM += "@" + function_name + "\n0;JMP\n";
+    ASM += "(" + returnLabel + ")";
+
+    callCounter++;
     return ASM;
 }
 
 /** Generate Hack Assembly code for a VM return operation */
 string VMTranslator::vm_return(){
     string ASM = "";
-    ASM += "@LCL\nD=M\n@R13\nM=D\n";
-    ASM += "@5\nA=D-A\nD=M\n@R14\nM=D\n";
+    ASM += "@LCL\nD=M\n@endFrame\nM=D\n";
+
+    ASM += "@5\nD=A\n@endFrame\nA=M-D\nD=M\n@retAddr\nM=D\n";
+
     ASM += "@SP\nAM=M-1\nD=M\n@ARG\nA=M\nM=D\n";
+
     ASM += "@ARG\nD=M+1\n@SP\nM=D\n";
-    ASM += "@R13\nM=M-1\nD=M\n@THAT\nM=D\n";
-    ASM += "@R13\nM=M-1\nD=M\n@THIS\nM=D\n";
-    ASM += "@R13\nM=M-1\nD=M\n@ARG\nM=D\n";
-    ASM += "@R13\nM=M-1\nD=M\n@LCL\nM=D\n";
-    ASM += "@R14\nA=M\n\n0;JMP\n";
+    ASM += "@endFrame\nAM=M-1\nD=M\n@THAT\nM=D\n";
+    ASM += "@endFrame\nAM=M-1\nD=M\n@THIS\nM=D\n";
+    ASM += "@endFrame\nAM=M-1\nD=M\n@ARG\nM=D\n";
+    ASM += "@endFrame\nAM=M-1\nD=M\n@LCL\nM=D\n";
+    ASM += "@retAddr\nA=M\n\n0;JMP\n";
     return ASM;
 }
