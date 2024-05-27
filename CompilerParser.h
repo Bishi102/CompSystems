@@ -3,11 +3,16 @@
 
 #include <list>
 #include <exception>
+#include <iostream>
 
 #include "ParseTree.h"
 #include "Token.h"
 
 class CompilerParser {
+    private:
+        std::list<Token*> tokens;
+        std::list<Token*>::iterator currentToken;
+
     public:
         CompilerParser(std::list<Token*> tokens);
 

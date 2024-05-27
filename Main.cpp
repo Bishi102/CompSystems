@@ -18,7 +18,10 @@ int main(int argc, char *argv[]) {
     tokens.push_back(new Token("symbol", "{"));
     tokens.push_back(new Token("symbol", "}"));
 
-    try {
+    CompilerParser parser(tokens);
+    ParseTree* result = parser.compileProgram();
+
+    /*try {
         CompilerParser parser(tokens);
         ParseTree* result = parser.compileProgram();
         if (result != NULL){
@@ -27,4 +30,5 @@ int main(int argc, char *argv[]) {
     } catch (ParseException e) {
         cout << "Error Parsing!" << endl;
     }
+    */
 }
