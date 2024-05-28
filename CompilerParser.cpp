@@ -76,7 +76,7 @@ ParseTree* CompilerParser::compileClassVarDec() {
 ParseTree* CompilerParser::compileSubroutine() {
     ParseTree* subroutineNode = new ParseTree("subroutine", "");
 
-    subroutineNode->addChild(mustBe("keyword", current()->getValue()));
+    subroutineNode->addChild(mustBe("keyword", ""));
     std::cout << "before if" << std::endl;
     if (have("keyword", "") || have("identifier", "")) {
         subroutineNode->addChild(mustBe(current()->getType(), current()->getValue()));
@@ -85,10 +85,14 @@ ParseTree* CompilerParser::compileSubroutine() {
     }
     std::cout << "after if" << std::endl;
     subroutineNode->addChild(mustBe("identifier", ""));
+    std::cout << "after identifier" << std::endl;
     subroutineNode->addChild(mustBe("symbol", "("));
+    std::cout << "after symbol" << std::endl;
     subroutineNode->addChild(compileParameterList());
+    std::cout << "after paramList" << std::endl;
     subroutineNode->addChild(mustBe("symbol", ")"));
     subroutineNode->addChild(compileSubroutineBody());
+    std::cout << "after subroutineBody" << std::endl;
 
     return subroutineNode;
 }
@@ -100,7 +104,7 @@ ParseTree* CompilerParser::compileSubroutine() {
 ParseTree* CompilerParser::compileParameterList() {
     ParseTree* parameterListNode = new ParseTree("parameterList", "");
 
-    if (have("symbol", "(")) {
+    if (have("symbol", ")")) {
         return parameterListNode;
     }
 
@@ -130,7 +134,19 @@ ParseTree* CompilerParser::compileParameterList() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileSubroutineBody() {
-    return NULL;
+    ParseTree* subroutineBodyNode = new ParseTree("subroutineBody", "");
+
+    subroutineBodyNode->addChild(mustBe("symbol", "{"));
+
+    while (have("keyword", "var")) {
+        subroutineBodyNode->addChild(compileVarDec());
+    }
+    
+    subroutineBodyNode->addChild(compileStatements());
+    
+    subroutineBodyNode->addChild(mustBe("symbol", "}"));
+
+    return subroutineBodyNode;
 }
 
 /**
