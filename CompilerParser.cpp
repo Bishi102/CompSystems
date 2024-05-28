@@ -154,7 +154,24 @@ ParseTree* CompilerParser::compileSubroutineBody() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileVarDec() {
-    return NULL;
+    ParseTree* varDecNode = new ParseTree("varDecNode", "");
+
+    varDecNode->addChild(mustBe("keyword", "var"));
+
+    if (have("keyword", "") || have("identifier", "")) {
+        varDecNode->addChild(mustBe(current()->getType(), ""));
+    }
+
+    varDecNode->addChild(mustBe("identifier", ""));
+
+    while (have("symbol", ",")) {
+        varDecNode->addChild(mustBe("symbol", ","));
+        varDecNode->addChild(mustBe("identifier", ""));
+    }
+
+    varDecNode->addChild(mustBe("symbol", ";"));
+
+    return varDecNode;
 }
 
 /**
@@ -162,7 +179,25 @@ ParseTree* CompilerParser::compileVarDec() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileStatements() {
-    return NULL;
+    ParseTree* statementsNode = new ParseTree("statements", "");
+
+    while (have("keyword", "")) {
+        if (have("keyword", "let")) {
+            statementsNode->addChild(compileLet());
+        } else if (have("keyword", "if")) {
+            statementsNode->addChild(compileIf());
+        } else if (have("keyword", "while")) {
+            statementsNode->addChild(compileWhile());
+        } else if (have("keyword", "do")) {
+            statementsNode->addChild(compileDo());
+        } else if (have("keyword", "return")) {
+            statementsNode->addChild(compileReturn());
+        } else {
+            throw ParseException();
+        }
+    }
+
+    return statementsNode;
 }
 
 /**
