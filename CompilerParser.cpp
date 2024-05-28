@@ -23,13 +23,10 @@ ParseTree* CompilerParser::compileProgram() {
  */
 ParseTree* CompilerParser::compileClass() {
     ParseTree* classNode = new ParseTree("class", "");
-    std::cout << "parseTree made" << std::endl;
+
     classNode->addChild(mustBe("keyword", "class"));
-    std::cout << "one child added" << std::endl;
     classNode->addChild(mustBe("identifier", ""));
-    std::cout << "two childs added" << std::endl;
     classNode->addChild(mustBe("symbol", "{"));
-    std::cout << "three childs added" << std::endl;
 
     while (have("keyword", "static") || have("keyword", "field")) {
         classNode->addChild(compileClassVarDec());
@@ -242,7 +239,14 @@ Token* CompilerParser::current(){
  */
 bool CompilerParser::have(std::string expectedType, std::string expectedValue){
     Token* token = current();
-    return (token != nullptr) && (token->getType() == expectedType) && (token->getValue() == expectedValue);
+    if (token == nullptr) {
+        return false;  
+    }
+    if (expectedValue.empty()) {
+        return token->getType() == expectedType;
+    } else {
+        return token->getType() == expectedType && token->getValue() == expectedValue;
+    }
 }
 
 /**
