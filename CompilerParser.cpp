@@ -77,13 +77,13 @@ ParseTree* CompilerParser::compileSubroutine() {
     ParseTree* subroutineNode = new ParseTree("subroutine", "");
 
     subroutineNode->addChild(mustBe("keyword", current()->getValue()));
-
+    std::cout << "before if" << std::endl;
     if (have("keyword", "") || have("identifier", "")) {
         subroutineNode->addChild(mustBe(current()->getType(), current()->getValue()));
     } else {
         throw ParseException();
     }
-
+    std::cout << "after if" << std::endl;
     subroutineNode->addChild(mustBe("identifier", ""));
     subroutineNode->addChild(mustBe("symbol", "("));
     subroutineNode->addChild(compileParameterList());
