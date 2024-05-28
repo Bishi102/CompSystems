@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     CompilerParser parser(tokens);
     ParseTree* result = parser.compileProgram();
 
-    /*try {
+    try {
         CompilerParser parser(tokens);
         ParseTree* result = parser.compileProgram();
         if (result != NULL){
@@ -30,5 +30,5 @@ int main(int argc, char *argv[]) {
     } catch (ParseException e) {
         cout << "Error Parsing!" << endl;
     }
-    */
+    return 0;
 }

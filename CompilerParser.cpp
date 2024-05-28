@@ -6,7 +6,7 @@
  */
 CompilerParser::CompilerParser(std::list<Token*> tokens) {
     this->tokens = tokens;
-    this->currentToken = tokens.begin();
+    this->currentToken = this->tokens.begin();
 }
 
 /**
