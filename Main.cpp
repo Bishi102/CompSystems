@@ -7,19 +7,15 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    // class Main { function void test ( ) { } }  
+    // { var int a ; }    
     list<Token*> tokens;
-    tokens.push_back(new Token("keyword", "class"));
-    tokens.push_back(new Token("identifier", "Main"));
     tokens.push_back(new Token("symbol", "{"));
-    tokens.push_back(new Token("keyword", "function"));
-    tokens.push_back(new Token("keyword", "void"));
-    tokens.push_back(new Token("identifier", "test"));
-    tokens.push_back(new Token("symbol", "("));
-    tokens.push_back(new Token("symbol", ")"));
-    tokens.push_back(new Token("symbol", "{"));
+    tokens.push_back(new Token("keyword", "var"));
+    tokens.push_back(new Token("keyword", "int"));
+    tokens.push_back(new Token("identifier", "a"));
+    tokens.push_back(new Token("symbol", ";"));
     tokens.push_back(new Token("symbol", "}"));
-    tokens.push_back(new Token("symbol", "}"));
+    
 
     CompilerParser parser(tokens);
     ParseTree* result = parser.compileProgram();

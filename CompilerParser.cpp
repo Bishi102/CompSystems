@@ -135,15 +135,15 @@ ParseTree* CompilerParser::compileParameterList() {
  */
 ParseTree* CompilerParser::compileSubroutineBody() {
     ParseTree* subroutineBodyNode = new ParseTree("subroutineBody", "");
-
+    std::cout << "before first addchild" << std::endl;
     subroutineBodyNode->addChild(mustBe("symbol", "{"));
-
+    std::cout << "before vardec" << std::endl;
     while (have("keyword", "var")) {
         subroutineBodyNode->addChild(compileVarDec());
     }
-    
+    std::cout << "after vardec" << std::endl;
     subroutineBodyNode->addChild(compileStatements());
-    
+    std::cout << "after statements" << std::endl;
     subroutineBodyNode->addChild(mustBe("symbol", "}"));
 
     return subroutineBodyNode;
@@ -154,7 +154,7 @@ ParseTree* CompilerParser::compileSubroutineBody() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileVarDec() {
-    ParseTree* varDecNode = new ParseTree("varDecNode", "");
+    ParseTree* varDecNode = new ParseTree("varDec", "");
 
     varDecNode->addChild(mustBe("keyword", "var"));
 
