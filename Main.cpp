@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
     tokens.push_back(new Token("keyword", "let"));
     tokens.push_back(new Token("identifier", "d"));
     tokens.push_back(new Token("symbol", "="));
-    tokens.push_back(new Token("identifier", "skip"));
+    tokens.push_back(new Token("keyword", "skip"));
     tokens.push_back(new Token("symbol", ";"));
     tokens.push_back(new Token("symbol", "}"));
 
