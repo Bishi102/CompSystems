@@ -38,6 +38,7 @@ ParseTree* CompilerParser::compileClass() {
     }
 
     classNode->addChild(mustBe("symbol", "}"));
+    std::cout << "compile class done" << std::endl;
     return classNode;
 }
 
@@ -57,12 +58,12 @@ ParseTree* CompilerParser::compileClassVarDec() {
     }
 
     classVarDecNode->addChild(mustBe("identifier", ""));
-
+    
     while (have("symbol", ",")) {
         classVarDecNode->addChild(mustBe("symbol", ","));
         classVarDecNode->addChild(mustBe("identifier", ""));
     }
-
+    
     classVarDecNode->addChild(mustBe("symbol", ";"));
 
     return classVarDecNode;
@@ -182,6 +183,7 @@ ParseTree* CompilerParser::compileStatements() {
     ParseTree* statementsNode = new ParseTree("statements", "");
 
     while (have("keyword", "let") || have("keyword", "if") || have("keyword", "while") || have("keyword", "do") || have("keyword", "return")) {
+        std::cout << "entered statements while loop" << std::endl;
         if (have("keyword", "let")) {
             statementsNode->addChild(compileLet());
         } else if (have("keyword", "if")) {
@@ -192,11 +194,10 @@ ParseTree* CompilerParser::compileStatements() {
             statementsNode->addChild(compileDo());
         } else if (have("keyword", "return")) {
             statementsNode->addChild(compileReturn());
-        } else {
-            throw ParseException();
         }
+        std::cout << "passed statements while loop" << std::endl;
     }
-
+    std::cout << "exited statements while loop" << std::endl;
     return statementsNode;
 }
 
@@ -206,20 +207,22 @@ ParseTree* CompilerParser::compileStatements() {
  */
 ParseTree* CompilerParser::compileLet() {
     ParseTree* letNode = new ParseTree("letStatement", "");
-
+    std::cout << "before let" << std::endl;
     letNode->addChild(mustBe("keyword", "let"));
     letNode->addChild(mustBe("identifier", ""));
-
+    std::cout << "before let if" << std::endl;
     if (have("symbol", "[")) {
         letNode->addChild(mustBe("symbol", "["));
         letNode->addChild(compileExpression());
         letNode->addChild(mustBe("symbol", "]"));
     }
-    
+    std::cout << "after let if" << std::endl;
     letNode->addChild(mustBe("symbol", "="));
+    std::cout << "before expression" << std::endl;
     letNode->addChild(compileExpression());
+    std::cout << "after expression" << std::endl;
     letNode->addChild(mustBe("symbol", ";"));
-
+    std::cout << "after let return" << std::endl;
     return letNode;
 }
 
@@ -303,7 +306,17 @@ ParseTree* CompilerParser::compileReturn() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileExpression() {
-    return NULL;
+    ParseTree* expressionNode = new ParseTree("expression", "");
+    expressionNode->addChild(compileTerm());
+
+    while (have("symbol", "+") || have("symbol", "-") || have("symbol", "*") || 
+           have("symbol", "/") || have("symbol", "&") || have("symbol", "|") || 
+           have("symbol", "<") || have("symbol", ">") || have("symbol", "=")) {
+        expressionNode->addChild(mustBe("symbol", current()->getValue()));
+        expressionNode->addChild(compileTerm());
+    }
+
+    return expressionNode;
 }
 
 /**
@@ -311,7 +324,45 @@ ParseTree* CompilerParser::compileExpression() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileTerm() {
-    return NULL;
+    ParseTree* termNode = new ParseTree("term", "");
+
+    if (have("integerConstant", "")) {
+        termNode->addChild(mustBe("integerConstant", current()->getValue()));
+    } else if (have("stringConstant", "")) {
+        termNode->addChild(mustBe("stringConstant", current()->getValue()));
+    } else if (have("keyword", "true") || have("keyword", "false") || 
+               have("keyword", "null") || have("keyword", "this")) {
+        termNode->addChild(mustBe("keyword", current()->getValue()));
+    } else if (have("identifier", "")) {
+        termNode->addChild(mustBe("identifier", ""));
+        
+        if (have("symbol", "[")) {
+            termNode->addChild(mustBe("symbol", "["));
+            termNode->addChild(compileExpression());
+            termNode->addChild(mustBe("symbol", "]"));
+        } else if (have("symbol", "(")) {
+            termNode->addChild(mustBe("symbol", "("));
+            termNode->addChild(compileExpressionList());
+            termNode->addChild(mustBe("symbol", ")"));
+        } else if (have("symbol", ".")) {
+            termNode->addChild(mustBe("symbol", "."));
+            termNode->addChild(mustBe("identifier", ""));
+            termNode->addChild(mustBe("symbol", "("));
+            termNode->addChild(compileExpressionList());
+            termNode->addChild(mustBe("symbol", ")"));
+        }
+    } else if (have("symbol", "(")) {
+        termNode->addChild(mustBe("symbol", "("));
+        termNode->addChild(compileExpression());
+        termNode->addChild(mustBe("symbol", ")"));
+    } else if (have("symbol", "-") || have("symbol", "~")) {
+        termNode->addChild(mustBe("symbol", current()->getValue()));
+        termNode->addChild(compileTerm());
+    } else {
+        throw ParseException();
+    }
+
+    return termNode;
 }
 
 /**
@@ -319,7 +370,18 @@ ParseTree* CompilerParser::compileTerm() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileExpressionList() {
-    return NULL;
+    ParseTree* expressionListNode = new ParseTree("expressionList", "");
+
+    if (!have("symbol", ")")) {
+        expressionListNode->addChild(compileExpression());
+
+        while (have("symbol", ",")) {
+            expressionListNode->addChild(mustBe("symbol", ","));
+            expressionListNode->addChild(compileExpression());
+        }
+    }
+
+    return expressionListNode;
 }
 
 /**
